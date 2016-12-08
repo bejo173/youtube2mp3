@@ -14,6 +14,10 @@ Web site: https://github.com/splanger
 """
 from __future__ import print_function
 from flask import Flask, request, send_from_directory
+import json
+from scraper import ScraperException
+from model import ScrapedYoutubeVideo
+from helpers import VideoIDExtractor, VideoIDExtractorError
 import logging
 import config
 import os
@@ -38,7 +42,20 @@ def convert_youtube_to_mp3():
     converts into scraped and returns a URL to download the scraped file.
     :return:
     """
-    pass
+    if 'url' not in request.args:
+        return json.dumps({"error": "Missing 'url' query param"}), 400
+
+    try:
+        youtube_url = request.args['url']
+        video_id = VideoIDExtractor.extract(youtube_url)
+        scraped_filename = app_config.scraper.scrape(video_id, app_config.SCRAPING_OUTPUT)
+        scraped_video = ScrapedYoutubeVideo(video_id, app_config.HOST + "/downloads/" + scraped_filename)
+    except ScraperException:
+        return json.dumps({"error": "Failed to scrape the video."}), 500
+    except VideoIDExtractorError:
+        return json.dumps({"error": "Can't fetch a video ID from the provided URL."}), 400
+
+    return json.dumps(scraped_video.__dict__())
 
 
 @app.route("/downloads/<string:filename>")
