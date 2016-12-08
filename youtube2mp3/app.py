@@ -13,8 +13,19 @@ Author: Yuri Kroz
 Web site: https://github.com/splanger
 """
 from __future__ import print_function
-from flask import Flask
+from flask import Flask, request, send_from_directory
+import logging
+import config
+import os
 
+logger = logging.getLogger('Youtube2Mp3')
+
+# Initialize the app's configurations
+if 'APP_CONFIG' not in os.environ:
+    logger.error("Expecting APP_CONFIG environment variable to be set. See README file.", "Error")
+    exit(1)
+
+app_config = eval(os.environ['APP_CONFIG'])()
 app = Flask(__name__, app_config.STATIC_PATH)
 
 
@@ -32,7 +43,7 @@ def convert_youtube_to_mp3():
 
 @app.route("/downloads/<string:filename>")
 def serve_file(filename):
-    pass
+    return send_from_directory("../static/scraped", filename)
 
 if __name__ == '__main__':
     app.run()
