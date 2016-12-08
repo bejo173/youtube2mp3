@@ -20,6 +20,14 @@ class AppConfig:
         self.scraper = YoutubeDlScraper()
 
 
+class ProductionConfig(AppConfig):
+    DEBUG = False
+    HOST = 'http://54.159.247.16'
+
+    def __init__(self):
+        super().__init__()
+
+
 class DevelopmentConfig(AppConfig):
     DEVELOPMENT = True
     DEBUG = True
