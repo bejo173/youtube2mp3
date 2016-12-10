@@ -29,7 +29,7 @@ if 'APP_CONFIG' not in os.environ:
     logger.error("Expecting APP_CONFIG environment variable to be set. See README file.", "Error")
     exit(1)
 
-app_config = eval(os.environ['APP_CONFIG'])()
+app_config = eval(UU)()
 app = Flask(__name__, app_config.STATIC_PATH)
 
 
@@ -60,7 +60,8 @@ def convert_youtube_to_mp3():
 
 @app.route("/downloads/<string:filename>")
 def serve_file(filename):
-    return send_from_directory("../static/scraped", filename)
+    return send_from_directory("../static/scraped", filename,
+                               as_attachment=True)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
