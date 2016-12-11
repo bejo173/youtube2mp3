@@ -29,7 +29,7 @@ if 'APP_CONFIG' not in os.environ:
     logger.error("Expecting APP_CONFIG environment variable to be set. See README file.", "Error")
     exit(1)
 
-app_config = eval(UU)()
+app_config = eval(os.environ['APP_CONFIG'])()
 app = Flask(__name__, app_config.STATIC_PATH)
 
 
