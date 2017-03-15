@@ -33,7 +33,7 @@ class ProductionConfig(AppConfig):
 class DevelopmentConfig(AppConfig):
     DEVELOPMENT = True
     DEBUG = True
-    PORT = 5050
+    PORT = 5000
     HOST = 'http://127.0.0.1:' + PORT.__str__()
 
     def __init__(self):
