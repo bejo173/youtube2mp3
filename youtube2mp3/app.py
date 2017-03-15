@@ -64,4 +64,4 @@ def serve_file(filename):
                                as_attachment=True)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=app_config.PORT)

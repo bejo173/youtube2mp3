@@ -11,7 +11,8 @@ class AppConfig:
     """Initialize application's configs"""
     _STATIC_DIR = 'static'
     STATIC_PATH = '/%s'.format(_STATIC_DIR)
-    HOST = 'http://127.0.0.1:5000'
+    PORT = 5000
+    HOST = 'http://127.0.0.1:' + PORT.__str__()
 
     # Where scraped stuff should be saved
     SCRAPING_OUTPUT = os.path.join(basedir, _STATIC_DIR, 'scraped')
@@ -22,7 +23,8 @@ class AppConfig:
 
 class ProductionConfig(AppConfig):
     DEBUG = False
-    HOST = 'http://54.159.247.16'
+    HOST = 'http://127.0.0.1'
+    PORT = 80
 
     def __init__(self):
         super().__init__()
@@ -31,6 +33,8 @@ class ProductionConfig(AppConfig):
 class DevelopmentConfig(AppConfig):
     DEVELOPMENT = True
     DEBUG = True
+    PORT = 5050
+    HOST = 'http://127.0.0.1:' + PORT.__str__()
 
     def __init__(self):
         super().__init__()
