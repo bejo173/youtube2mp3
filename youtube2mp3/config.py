@@ -28,7 +28,7 @@ class AppConfig:
 
 class ProductionConfig(AppConfig):
     DEBUG = False
-    HOST = 'http://yourdomain.com'
+    HOST = 'https://yyk.herokuapp.com'
 
     def __init__(self):
         super().__init__()
